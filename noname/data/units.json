@@ -1,0 +1,10 @@
+{
+    "players": [
+        {
+            "name": "gary",
+            "file": "Gary.png",
+            "width": 32,
+            "height": 32,
+        },
+    ]
+}

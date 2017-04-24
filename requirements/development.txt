@@ -1,0 +1,9 @@
+-r application.txt
+
+frosted
+pep8
+pytest
+pytest-cov
+pytest-runner
+pytest-mock
+mock
