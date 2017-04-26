@@ -24,3 +24,11 @@ class BasicSprite(pygame.sprite.Sprite):
         height = self.metadata["height"] if self.metadata["height"] else self.rect.height
         self.image = pygame.transform.scale(self.image, (width, height))
         self.rect = self.image.get_rect()
+        if self.metadata["position"]["x"] or self.metadata["position"]["y"] != 0:
+            self.rect = pygame.Rect(width, height,
+                                    self.metadata["position"]["x"],
+                                    self.metadata["position"]["y"])
+        self.rendered = pygame.sprite.RenderPlain((self))
+
+    def draw(self, screen):
+        self.rendered.draw(screen)
