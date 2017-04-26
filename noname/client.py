@@ -4,6 +4,7 @@
 """noname main."""
 
 import argparse
+import logging
 import os
 import socket
 import sys
@@ -11,8 +12,11 @@ import sys
 from noname import constants
 from noname import gameclient
 
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
+
 x = 0
-y = 0
+y = 1000
 os.environ['SDL_VIDEO_WINDOW_POS'] = "%d,%d" % (x, y)
 
 
@@ -69,7 +73,6 @@ def main():
                                           options.width, options.height,
                                           options.fps)
     game_instance.add_player()
-    game_instance.add_player(x=200, y=100)
     game_instance.run()  # NOTE: HANGING CALL
     exit(0, "Quit successful")
 

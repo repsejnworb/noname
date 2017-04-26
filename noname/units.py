@@ -1,13 +1,18 @@
+import logging
+
 import pygame.locals
 
 from noname.sprites import BasicSprite
 
+logger = logging.getLogger(__name__)
+
 DIAG_CONSTANT = 0.707
+
 
 class Unit(object):
     def __init__(self, name, sprite_metadata):
         self.name = name
-        print "Loading sprite for %r" % sprite_metadata
+        logger.debug("Loading sprite for %r" % sprite_metadata)
         self.sprite = BasicSprite(sprite_metadata)
 
 

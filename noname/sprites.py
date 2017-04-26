@@ -1,12 +1,16 @@
+import logging
 import os
+
 import pygame
+
+logger = logging.getLogger(__name__)
 
 
 def load_image(file):
     path = "noname/resources/img/"
     path += file
     path = os.path.abspath(path)
-    print "Loading image: %s" % path
+    logger.debug("Loading image: %s" % path)
     image = pygame.image.load(path)
     return image
 
