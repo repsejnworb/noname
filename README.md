@@ -1,6 +1,8 @@
+# CHANGELOG
 * Basic Movement
   - Keyboard
 
+# TODO
 * Basic Combat
   - one swing-attack, keyboard
 
