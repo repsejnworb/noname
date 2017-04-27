@@ -3,6 +3,9 @@
   - Keyboard
 
 # TODO
+* Basic GUI/HUD
+  - Just an initial HUD
+
 * Basic Combat
   - one swing-attack, keyboard
 
