@@ -2,7 +2,9 @@ import logging
 
 import pygame.locals
 
+from noname import constants
 from noname.sprites import BasicSprite
+from noname.inventory import PlayerInventory
 
 logger = logging.getLogger(__name__)
 
@@ -24,6 +26,7 @@ class Player(Unit):
         self.mass = 5
         self.acceleration = 0
         self.max_acceleration = 5
+        self.inventory = PlayerInventory(self, constants.PLAYER_INVENTORY_SIZE)
 
     def move(self, keys):
         x_move = 0
@@ -44,3 +47,6 @@ class Player(Unit):
             y_move = y_move * DIAG_CONSTANT
 
         self.sprite.rect.move_ip(x_move, y_move)
+
+    def render(self, screen):
+        self.sprite.draw(screen)

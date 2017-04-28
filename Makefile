@@ -26,10 +26,13 @@ coverage: env
 						--cov-report html \
 						--cov-report xml \
 						--cov-report term \
-						--cov vastd vastd
+						--cov noname noname
+
+test: env
+	./env/bin/py.test noname
 
 clean:
 	rm -rf build dist env *.egg-info
 	find . -name *.py[oc] -delete
-	rm -f vastd/version.py
+	rm -f noname/version.py
 

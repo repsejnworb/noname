@@ -1,4 +1,13 @@
+import pygame
+
+from noname import constants
+
+
 class SlotContainerFull(Exception):
+    pass
+
+
+class InvalidSlotNumber(Exception):
     pass
 
 
@@ -40,9 +49,11 @@ class SlotContainer(object):
         self.num_slots = num_slots
         self.slots = create_slots(num_slots)
 
+    def free_slots(self):
+        return [slot for slot in self.slots.itervalues() if slot.free()]
+
     def has_space(self):
-        free_slots = [slot for slot in self.slots.itervalues() if slot.free()]
-        return len(free_slots) > 0
+        return len(self.free_slots()) > 0
 
     def get_first_free_slot(self):
         return get_first_free_slot(self.slots)
@@ -50,6 +61,13 @@ class SlotContainer(object):
     def add(self, item):
         slot = self.get_first_free_slot()
         slot.add(item)
+
+    def get(self, slot_number):
+        slot_range = range(1, self.num_slots + 1)
+        if slot_number not in slot_range:
+            msg = "Invalid slot number %s for container size %s"
+            raise InvalidSlotNumber(msg % slot_number, self.num_slots)
+        return self.slots[slot_number]
 
 
 class Bag(SlotContainer):
@@ -63,6 +81,8 @@ class Inventory(SlotContainer):
 class PlayerInventory(Inventory):
     def __init__(self, owner, num_slots):
         Inventory.__init__(self, owner, num_slots)
+        initial_bag = Bag(self, constants.STARTING_BAG_SIZE)
+        self.add(initial_bag)
 
 
 class MonsterInventory(object):

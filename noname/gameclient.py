@@ -5,6 +5,7 @@ import pygame
 
 from noname import constants
 from noname import units
+from noname import hud
 
 logger = logging.getLogger(__name__)
 
@@ -12,6 +13,7 @@ if not pygame.font:
     logger.warning("Warning, fonts disabled")
 if not pygame.mixer:
     logger.warning("Warning, sound disabled")
+
 
 class GameClient(object):
     """ The GameClient, drawing on the screen """
@@ -28,12 +30,15 @@ class GameClient(object):
         self.players = []
         self.player = None
         self.clock = pygame.time.Clock()
+        self.hud = hud.Hud(self)
 
-    def update(self):
+    def update(self, event):
         self.clock.tick(self.fps)
         self.screen.fill(0)
         self.level.draw(self.screen)
-        self.draw_players()
+        self.player.render(self.screen)
+        self.hud.render()
+        self.hud.handle(event)
         pygame.display.flip()
 
     def run(self):
@@ -46,12 +51,17 @@ class GameClient(object):
         running = True
         self.load_level(constants.DEFAULT_LEVEL)
         while running:
-            self.update()
             for event in pygame.event.get():
                 # pygame.time.wait(500)  # dev quit
                 # return  # dev quit
                 if event.type == pygame.QUIT:
                     return
+
+                if event.type == pygame.KEYDOWN:
+                    if event.key == pygame.K_q:
+                        return
+
+                self.update(event)
 
                 # IMAGE FLIP ONLY?
                 # elif event.type == pygame.KEYDOWN:
@@ -60,7 +70,7 @@ class GameClient(object):
             keys = pygame.key.get_pressed()
             if self.is_controls_moving(keys):
                 self.player.move(keys)
-            if (time.time() - start) >= 2:
+            if (time.time() - start) >= 20:
                 running = False
 
     def is_controls_moving(self, keys):
@@ -83,11 +93,6 @@ class GameClient(object):
         level_module = importlib.import_module(module_name)
         self.level = level_module.Level()
         self.level.load_sprites()
-
-    def draw_players(self):
-        for player in self.players:
-            logger.debug("Sprite: %r" % player.sprite)
-            player.sprite.draw(self.screen)
 
     def add_player(self, x=0, y=0):
         single_player_metadata = {
