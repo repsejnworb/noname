@@ -106,8 +106,3 @@ class GameClient(object):
         if self.player is None:
             self.player = player
         self.players.append(player)
-
-
-class PlayerInput(object):
-    def is_moving(self):
-        pass
